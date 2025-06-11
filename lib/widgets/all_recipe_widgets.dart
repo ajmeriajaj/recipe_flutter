@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipe/responsive.dart';
 import 'package:recipe/widgets/tags_list_view.dart';
 import 'detail_text_widgets.dart';
 
@@ -30,80 +31,80 @@ class AllRecipeWidgets extends StatefulWidget {
 }
 
 class _AllRecipeWidgetsState extends State<AllRecipeWidgets> {
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 10,
-      child: SizedBox(
-        height: 500,
-        width: 210,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(17),
-              ),
-              child: Image.network(
-                widget.recipeImage,
-                fit: BoxFit.cover,
-              ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ClipRRect(
+            borderRadius: const BorderRadius.vertical(
+              top: Radius.circular(17),
             ),
-            Padding(
-              padding: const EdgeInsets.all(6.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    widget.recipeTitle,
-                    style: TextStyle(fontWeight: FontWeight.bold),
+            child: Image.network(
+              widget.recipeImage,
+              fit: BoxFit.cover,
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(6.0 * getResponsive(context)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  widget.recipeTitle,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 0.007 * getHeight(context)),
+                SizedBox(
+                  height: 0.040 * getHeight(context),
+                    child: TagsListView(
+                        tags: widget.tags
+                    )
+                ),
+                SizedBox(height: 0.007 * getHeight(context)),
+                DetailTextWidgets(
+                  detailHeading: 'Preparation Time',
+                  mainDetail: widget.preparationTime,
+                ),
+                SizedBox(height: 0.007 * getHeight(context),),
+                DetailTextWidgets(
+                    detailHeading: 'Cooking Time',
+                    mainDetail: widget.cookingTime
+                ),
+                SizedBox(height: 0.007 * getHeight(context),),
+                DetailTextWidgets(
+                    detailHeading: 'Difficulty',
+                    mainDetail: widget.difficulty
+                ),
+                SizedBox(height: 0.007 * getHeight(context),),
+                DetailTextWidgets(
+                    detailHeading: 'Cuisine',
+                    mainDetail: widget.cuisine
+                ),
+                SizedBox(height: 0.007 * getHeight(context),),
+                Text(
+                    'Meal Types : ',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold
                   ),
-                  SizedBox(height: 6),
-                  SizedBox(
-                    height: 30,
-                      child: TagsListView(
-                          tags: widget.tags
-                      )
-                  ),
-                  SizedBox(height: 6),
-                  DetailTextWidgets(
-                    detailHeading: 'Preparation Time',
-                    mainDetail: widget.preparationTime,
-                  ),
-                  SizedBox(height: 6,),
-                  DetailTextWidgets(
-                      detailHeading: 'Cooking Time',
-                      mainDetail: widget.cookingTime
-                  ),
-                  SizedBox(height: 6,),
-                  DetailTextWidgets(
-                      detailHeading: 'Difficulty',
-                      mainDetail: widget.difficulty
-                  ),
-                  SizedBox(height: 6,),
-                  DetailTextWidgets(
-                      detailHeading: 'Cuisine',
-                      mainDetail: widget.cuisine
-                  ),
-                  SizedBox(height: 6,),
-                  Text(
-                      'Meal Types : ',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold
-                    ),
-                  ),
-                  SizedBox(height: 6,),
-                  SizedBox(
-                      height: 30,
-                      child: TagsListView(
-                          tags: widget.meals
-                      )
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
+                ),
+                SizedBox(height: 0.007 * getHeight(context),),
+                SizedBox(
+                    height: 0.040 * getHeight(context),
+                    child: TagsListView(
+                        tags: widget.meals
+                    )
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }

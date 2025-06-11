@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipe/responsive.dart';
 import 'package:recipe/widgets/all_recipe_grid_view.dart';
 import 'package:recipe/widgets/custom_drop_down_widgets.dart';
 import '../data/data.dart';
@@ -133,7 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
           'All Recipe',
           style: TextStyle(
             color: Color.fromARGB(255, 252, 70, 83),
-            fontSize: 23,
+            fontSize: 27 * getResponsive(context),
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -168,7 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
           await fetchPaginationRecipes();
         },
         child: Padding(
-          padding: const EdgeInsets.all(14.0),
+          padding: EdgeInsets.all(14.0 * getResponsive(context)),
           child: Column(
             children: [
               Row(
@@ -178,7 +179,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: SearchBar(
                       controller: _searchController,
                       hintText: "Search you're looking for",
-                      leading: Icon(Icons.search),
+                      leading: Icon(
+                         color: Color.fromARGB(255, 252, 70, 83),
+                          Icons.search
+                      ),
                       onSubmitted: search,
                       onChanged: (value) {
                         if (value.trim().isEmpty) {
@@ -187,7 +191,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                     ),
                   ),
-                  SizedBox(width: 13,),
+                  SizedBox(width: 0.013 * getWidth(context),),
                   CustomDropDownWidgets<Map<String, String>>(
                       iconData: Icons.filter_alt,
                       item: sortOption,
@@ -200,7 +204,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: 13),
+              SizedBox(height: 0.013 * getHeight(context)),
               Expanded(
                 child:
                     recipeList.isEmpty
@@ -209,7 +213,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             "RECIPE NOT FOUND",
                             style: TextStyle(
                               color: Color.fromARGB(255, 252, 70, 83),
-                              fontSize: 23,
+                              fontSize: 23 * getResponsive(context),
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -221,7 +225,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               if(_isLoading)
                 Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(8.0 * getResponsive(context)),
                   child: CircularProgressIndicator(
                     color: Color.fromARGB(255, 252, 70, 83),
                   ),

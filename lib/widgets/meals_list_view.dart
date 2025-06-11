@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:recipe/responsive.dart';
 import 'package:recipe/widgets/tags_widgets.dart';
 
 class MealsListView extends StatefulWidget {
@@ -19,7 +20,7 @@ class _MealsListViewState extends State<MealsListView> {
         itemCount: widget.meals.length,
         itemBuilder: (context, index) {
           return Padding(
-            padding: const EdgeInsets.all(6.0),
+            padding: EdgeInsets.all(6.0 * getResponsive(context)),
             child: TagsWidgets(tagsName: widget.meals[index]),
           );
         }

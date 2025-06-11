@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:recipe/responsive.dart';
 import 'package:recipe/widgets/tags_widgets.dart';
 
 class TagsListView extends StatefulWidget {
@@ -18,7 +19,7 @@ class _TagsListViewState extends State<TagsListView> {
         itemCount: widget.tags.length,
         itemBuilder: (context, index) {
         return Padding(
-          padding: const EdgeInsets.all(6.0),
+          padding: EdgeInsets.all(6.0 * getResponsive(context)),
           child: TagsWidgets(tagsName: widget.tags[index]),
         );
         }

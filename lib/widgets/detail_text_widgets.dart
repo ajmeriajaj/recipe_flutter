@@ -31,9 +31,6 @@ class _DetailTextWidgetsState extends State<DetailTextWidgets> {
               fontWeight: FontWeight.bold,
               color: Colors.black,
             ),
-            // ..onTap = {
-            //
-            // }
           ),
         ],
       ),
