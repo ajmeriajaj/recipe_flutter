@@ -17,4 +17,10 @@ abstract class RestClient {
 
   @GET('recipes/tags')
   Future<String> getAllTags();
+
+  @GET('recipes')
+  Future<String> getPagination(
+      @Query('limit') int limit,
+      @Query('skip') int skip,
+      );
 }

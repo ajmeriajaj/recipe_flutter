@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:recipe/database/injection/injection.dart';
+import 'package:recipe/models/pagination_response.dart';
 
 class API {
   getAllRecipe() async {
@@ -15,6 +16,11 @@ class API {
 
   getAllTags() async {
     var res = await restClient.getAllTags();
+    return jsonDecode(res);
+  }
+
+  getPagination(int limit, int skip) async {
+    var res = await restClient.getPagination(limit, skip);
     return jsonDecode(res);
   }
  }

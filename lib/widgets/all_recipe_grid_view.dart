@@ -4,10 +4,12 @@ import 'package:recipe/widgets/all_recipe_widgets.dart';
 
 class AllRecipeGridView extends StatefulWidget {
   final List<Recipes> recipeList;
+  final ScrollController controller;
 
   const AllRecipeGridView({
     super.key,
     required this.recipeList,
+    required this.controller
   });
 
   @override
@@ -21,6 +23,7 @@ class _AllRecipeGridViewState extends State<AllRecipeGridView> {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
+      controller: widget.controller,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         mainAxisSpacing: 12,
