@@ -27,4 +27,9 @@ class API {
     var res = await restClient.getSort(sortBy, order);
     return jsonDecode(res);
   }
+
+  getRecipeByTags(String tag) async {
+    var res = await restClient.getRecipeByTags(tag);
+    return jsonDecode(res);
+  }
  }

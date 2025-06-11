@@ -123,6 +123,18 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  void getRecipeByTags(String tag) async{
+    final api =API();
+    final response = await api.getRecipeByTags(tag);
+    final getAllRecipe = GetAllRecipe.fromJson(response);
+
+    setState(() {
+      _skip = 0;
+      recipeList = getAllRecipe.recipes ?? [];
+      _hasMore = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -146,7 +158,7 @@ class _HomeScreenState extends State<HomeScreen> {
               _skip = 0;
               recipeList.clear();
               _hasMore = false;
-              search(value);
+              getRecipeByTags(value);
             },
             itemBuilder: (BuildContext context) {
               return filterList.map((filter) {
