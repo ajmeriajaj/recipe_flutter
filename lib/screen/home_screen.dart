@@ -14,11 +14,13 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final _searchController = TextEditingController();
   List<Recipes> recipeList = [];
+  List<String> filterList = [];
 
   @override
   void initState() {
     super.initState();
     fetchAllRecipe();
+    getAllTags();
   }
 
   void fetchAllRecipe() async {
@@ -31,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void search(String query) async {
-    if(query.trim().isEmpty) {
+    if (query.trim().isEmpty) {
       fetchAllRecipe();
       return;
     }
@@ -43,11 +45,19 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  void getAllTags() async {
+    final api = API();
+    final response = await api.getAllTags();
+    setState(() {
+      filterList = List<String>.from(response);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.menu),
+        // leading: Icon(Icons.menu),
         title: Text(
           'All Recipe',
           style: TextStyle(
@@ -56,6 +66,22 @@ class _HomeScreenState extends State<HomeScreen> {
             fontWeight: FontWeight.bold,
           ),
         ),
+        actions: [
+          PopupMenuButton<String>(
+            icon: Icon(
+              Icons.filter_list,
+              color: Color.fromARGB(255, 252, 70, 83),
+            ),
+            onSelected: (value) {
+              search(value);
+            },
+            itemBuilder: (BuildContext context) {
+              return filterList.map((filter) {
+                return PopupMenuItem(value: filter, child: Text(filter));
+              }).toList();
+            },
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(14.0),
@@ -67,28 +93,27 @@ class _HomeScreenState extends State<HomeScreen> {
               leading: Icon(Icons.search),
               onSubmitted: search,
               onChanged: (value) {
-                if(value.trim().isEmpty) {
+                if (value.trim().isEmpty) {
                   fetchAllRecipe();
                 }
               },
             ),
-            SizedBox(height: 13,),
+            SizedBox(height: 13),
             Expanded(
-                child: recipeList.isEmpty
-                    ? Center(
-                  child: Text(
-                    "RECIPE NOT FOUND",
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 252, 70, 83),
-                      fontSize: 23,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                )
-                    : AllRecipeGridView(
-                    recipeList: recipeList
-                )
-            )
+              child:
+                  recipeList.isEmpty
+                      ? Center(
+                        child: Text(
+                          "RECIPE NOT FOUND",
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 252, 70, 83),
+                            fontSize: 23,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      )
+                      : AllRecipeGridView(recipeList: recipeList),
+            ),
           ],
         ),
       ),

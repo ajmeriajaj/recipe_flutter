@@ -12,4 +12,9 @@ class API {
     var res = await restClient.searchRecipe(query);
     return jsonDecode(res);
   }
-}
+
+  getAllTags() async {
+    var res = await restClient.getAllTags();
+    return jsonDecode(res);
+  }
+ }

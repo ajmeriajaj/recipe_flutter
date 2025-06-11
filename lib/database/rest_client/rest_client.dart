@@ -14,4 +14,7 @@ abstract class RestClient {
   Future<String> searchRecipe(
       @Query('q') String query
       );
+
+  @GET('recipes/tags')
+  Future<String> getAllTags();
 }
