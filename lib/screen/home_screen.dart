@@ -21,6 +21,30 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _hasMore = true;
   final ScrollController _scrollController = ScrollController();
 
+
+  final List<Map<String, String>> sortOption = [
+    {
+      'label': 'Name (A-Z)',
+      'sortBy': 'name',
+      'order': 'asc'
+    },
+    {
+      'label': 'Name (Z-A)',
+      'sortBy': 'name',
+      'order': 'desc'
+    },
+    {
+      'label': 'Difficulty (Easy to Hard)',
+      'sortBy': 'difficulty',
+      'order': 'asc'
+    },
+    {
+      'label': 'Difficulty (Hard to Easy)',
+      'sortBy': 'difficulty',
+      'order': 'desc'
+    },
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -86,6 +110,18 @@ class _HomeScreenState extends State<HomeScreen> {
       _hasMore = newRecipe.length == _limit;
     });
   }
+  
+  void fetchSortedRecipe(String sortBy, String order) async {
+    final api = API();
+    final response = await api.getAscOrDescSort(sortBy, order);
+    final getAllRecipe = GetAllRecipe.fromJson(response);
+    
+    setState(() {
+      _skip = 0;
+      recipeList = getAllRecipe.recipes ?? [];
+      _hasMore = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -124,16 +160,46 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.all(14.0),
         child: Column(
           children: [
-            SearchBar(
-              controller: _searchController,
-              hintText: "Search you're looking for",
-              leading: Icon(Icons.search),
-              onSubmitted: search,
-              onChanged: (value) {
-                if (value.trim().isEmpty) {
-                  fetchAllRecipe();
-                }
-              },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: SearchBar(
+                    controller: _searchController,
+                    hintText: "Search you're looking for",
+                    leading: Icon(Icons.search),
+                    onSubmitted: search,
+                    onChanged: (value) {
+                      if (value.trim().isEmpty) {
+                        fetchAllRecipe();
+                      }
+                    },
+                  ),
+                ),
+                SizedBox(width: 13,),
+                PopupMenuButton<Map<String, String>>(
+                  icon: Icon(
+                    Icons.filter_alt,
+                    color: Color.fromARGB(255, 252, 70, 83),
+                  ),
+                    onSelected: (value) {
+                    final sortBy = value['sortBy']!;
+                    final order = value['order']!;
+                    fetchSortedRecipe(sortBy, order);
+                    },
+                    itemBuilder: (BuildContext context) {
+                    return sortOption.map((option) {
+                      return PopupMenuItem<Map<String, String>>(
+                        value: {
+                          'sortBy': option['sortBy']!,
+                          'order': option['order']!,
+                        },
+                          child: Text(option['label']!)
+                      );
+                    }).toList();
+                    }
+                )
+              ],
             ),
             SizedBox(height: 13),
             Expanded(

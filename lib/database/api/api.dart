@@ -22,4 +22,9 @@ class API {
     var res = await restClient.getPagination(limit, skip);
     return jsonDecode(res);
   }
+
+  getAscOrDescSort(String sortBy, String order) async {
+    var res = await restClient.getSort(sortBy, order);
+    return jsonDecode(res);
+  }
  }

@@ -23,4 +23,10 @@ abstract class RestClient {
       @Query('limit') int limit,
       @Query('skip') int skip,
       );
+
+  @GET('recipes')
+  Future<String> getSort(
+      @Query('sortBy') String sortBy,
+      @Query('order') String order,
+      );
 }
