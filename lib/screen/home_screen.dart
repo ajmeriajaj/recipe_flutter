@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:recipe/widgets/all_recipe_grid_view.dart';
-
 import '../database/api/api.dart';
 import '../models/get_all_recipe.dart';
 
@@ -43,6 +42,10 @@ class _HomeScreenState extends State<HomeScreen> {
       'sortBy': 'difficulty',
       'order': 'desc'
     },
+  ];
+
+  final List<String> mealType = [
+    'snack', 'breakfast', 'lunch', 'dinner', 'dessert',
   ];
 
   @override
@@ -135,6 +138,18 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  void getRecipeByMealsType(String type) async {
+    final api = API();
+    final response = await api.getRecipeByMealsType(type);
+    final getAllRecipe = GetAllRecipe.fromJson(response);
+
+    setState(() {
+      _skip = 0;
+      recipeList = getAllRecipe.recipes ?? [];
+      _hasMore = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -149,6 +164,23 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         actions: [
+          PopupMenuButton(
+            icon: Icon(
+                Icons.fastfood,
+              color: Color.fromARGB(255, 252, 70, 83),
+            ),
+              onSelected: (type) {
+              getRecipeByMealsType(type);
+              },
+              itemBuilder: (BuildContext context) {
+              return mealType.map((type) {
+                return PopupMenuItem(
+                  value: type,
+                    child: Text(type[0].toUpperCase() + type.substring(1))
+                );
+              } ,).toList();
+              }
+          ),
           PopupMenuButton<String>(
             icon: Icon(
               Icons.filter_list,

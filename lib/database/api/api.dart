@@ -32,4 +32,9 @@ class API {
     var res = await restClient.getRecipeByTags(tag);
     return jsonDecode(res);
   }
+
+  getRecipeByMealsType(String type) async {
+    var res = await restClient.getMeals(type);
+    return jsonDecode(res);
+  }
  }

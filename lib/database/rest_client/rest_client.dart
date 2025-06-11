@@ -34,4 +34,10 @@ abstract class RestClient {
       @Query('sortBy') String sortBy,
       @Query('order') String order,
       );
+
+
+  @GET('recipes/meal-type/{type}')
+  Future<String> getMeals(
+      @Path('type') String type
+      );
 }
