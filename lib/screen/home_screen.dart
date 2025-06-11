@@ -70,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  void fetchPaginationRecipes() async {
+  Future<void> fetchPaginationRecipes() async {
     setState(() {
       _isLoading = true;
     });
@@ -159,64 +159,75 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(14.0),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: SearchBar(
-                    controller: _searchController,
-                    hintText: "Search you're looking for",
-                    leading: Icon(Icons.search),
-                    onSubmitted: search,
-                    onChanged: (value) {
-                      if (value.trim().isEmpty) {
-                        fetchAllRecipe();
-                      }
-                    },
+      body: RefreshIndicator(
+        color: Color.fromARGB(255, 252, 70, 83),
+        onRefresh: () async {
+          _skip = 0;
+          recipeList.clear();
+          _hasMore = true;
+          await fetchPaginationRecipes();
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(14.0),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: SearchBar(
+                      controller: _searchController,
+                      hintText: "Search you're looking for",
+                      leading: Icon(Icons.search),
+                      onSubmitted: search,
+                      onChanged: (value) {
+                        if (value.trim().isEmpty) {
+                          fetchAllRecipe();
+                        }
+                      },
+                    ),
                   ),
-                ),
-                SizedBox(width: 13,),
-                CustomDropDownWidgets<Map<String, String>>(
-                    iconData: Icons.filter_alt,
-                    item: sortOption,
-                    getLabel: (option) => option['label']!,
-                    onSelect: (selectedOption) {
-                      final sortBy = selectedOption['sortBy']!;
-                      final order = selectedOption['order']!;
-                      fetchSortedRecipe(sortBy, order);
-                    },
-                ),
-              ],
-            ),
-            SizedBox(height: 13),
-            Expanded(
-              child:
-                  recipeList.isEmpty
-                      ? Center(
-                        child: Text(
-                          "RECIPE NOT FOUND",
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 252, 70, 83),
-                            fontSize: 23,
-                            fontWeight: FontWeight.bold,
+                  SizedBox(width: 13,),
+                  CustomDropDownWidgets<Map<String, String>>(
+                      iconData: Icons.filter_alt,
+                      item: sortOption,
+                      getLabel: (option) => option['label']!,
+                      onSelect: (selectedOption) {
+                        final sortBy = selectedOption['sortBy']!;
+                        final order = selectedOption['order']!;
+                        fetchSortedRecipe(sortBy, order);
+                      },
+                  ),
+                ],
+              ),
+              SizedBox(height: 13),
+              Expanded(
+                child:
+                    recipeList.isEmpty
+                        ? Center(
+                          child: Text(
+                            "RECIPE NOT FOUND",
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 252, 70, 83),
+                              fontSize: 23,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                      )
-                      : AllRecipeGridView(
-                      recipeList: recipeList,
-                    controller: _scrollController,
+                        )
+                        : AllRecipeGridView(
+                        recipeList: recipeList,
+                      controller: _scrollController,
+                    ),
+              ),
+              if(_isLoading)
+                Padding(
+                    padding: const EdgeInsets.all(8.0),
+                  child: CircularProgressIndicator(
+                    color: Color.fromARGB(255, 252, 70, 83),
                   ),
-            ),
-            if(_isLoading)
-              Padding(
-                  padding: const EdgeInsets.all(8.0),
-                child: CircularProgressIndicator(),
-              )
-          ],
+                )
+            ],
+          ),
         ),
       ),
     );
