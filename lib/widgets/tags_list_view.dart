@@ -13,17 +13,15 @@ class _TagsListViewState extends State<TagsListView> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-          itemCount: widget.tags.length,
-          itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.all(6.0),
-            child: TagsWidgets(tagsName: widget.tags[index]),
-          );
-          }
-      ),
+    return ListView.builder(
+      scrollDirection: Axis.horizontal,
+        itemCount: widget.tags.length,
+        itemBuilder: (context, index) {
+        return Padding(
+          padding: const EdgeInsets.all(6.0),
+          child: TagsWidgets(tagsName: widget.tags[index]),
+        );
+        }
     );
   }
 }

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:recipe/widgets/all_recipe_grid_view.dart';
 
+import '../database/api/api.dart';
+import '../models/get_all_recipe.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -9,6 +12,25 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final _searchController = TextEditingController();
+  List<Recipes> recipeList = [];
+
+
+  @override
+  void initState() {
+    super.initState();
+    fetchAllRecipe();
+  }
+
+  void fetchAllRecipe() async {
+    final api = API();
+    final response = await api.getAllRecipe();
+    final getAllRecipe = GetAllRecipe.fromJson(response);
+    setState(() {
+      recipeList = getAllRecipe.recipes ?? [];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +49,13 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.all(14.0),
         child: Column(
           children: [
-            AllRecipeGridView()
+            SearchBar(
+              controller: _searchController,
+              hintText: "Search you're looking for",
+              leading: Icon(Icons.search),
+            ),
+            SizedBox(height: 13,),
+            Expanded(child: AllRecipeGridView(recipeList: recipeList))
           ],
         ),
       ),
