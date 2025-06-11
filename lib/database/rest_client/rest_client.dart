@@ -9,4 +9,9 @@ abstract class RestClient {
 
   @GET('recipes')
   Future<String> getAllRecipe();
+
+  @GET('recipes/search')
+  Future<String> searchRecipe(
+      @Query('q') String query
+      );
 }

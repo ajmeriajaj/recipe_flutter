@@ -7,4 +7,9 @@ class API {
     var res = await restClient.getAllRecipe();
     return jsonDecode(res);
   }
+
+  searchRecipe(String query) async {
+    var res = await restClient.searchRecipe(query);
+    return jsonDecode(res);
+  }
 }
