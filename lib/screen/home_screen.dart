@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recipe/widgets/all_recipe_grid_view.dart';
+import 'package:recipe/widgets/custom_drop_down_widgets.dart';
+import '../data/data.dart';
 import '../database/api/api.dart';
 import '../models/get_all_recipe.dart';
 
@@ -19,34 +21,6 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _isLoading = false;
   bool _hasMore = true;
   final ScrollController _scrollController = ScrollController();
-
-
-  final List<Map<String, String>> sortOption = [
-    {
-      'label': 'Name (A-Z)',
-      'sortBy': 'name',
-      'order': 'asc'
-    },
-    {
-      'label': 'Name (Z-A)',
-      'sortBy': 'name',
-      'order': 'desc'
-    },
-    {
-      'label': 'Difficulty (Easy to Hard)',
-      'sortBy': 'difficulty',
-      'order': 'asc'
-    },
-    {
-      'label': 'Difficulty (Hard to Easy)',
-      'sortBy': 'difficulty',
-      'order': 'desc'
-    },
-  ];
-
-  final List<String> mealType = [
-    'snack', 'breakfast', 'lunch', 'dinner', 'dessert',
-  ];
 
   @override
   void initState() {
@@ -164,39 +138,24 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         actions: [
-          PopupMenuButton(
-            icon: Icon(
-                Icons.fastfood,
-              color: Color.fromARGB(255, 252, 70, 83),
-            ),
-              onSelected: (type) {
-              getRecipeByMealsType(type);
+          CustomDropDownWidgets(
+              iconData: Icons.fastfood,
+              item: mealType,
+              getLabel: (type) => type[0].toUpperCase() + type.substring(1),
+              onSelect: (type) {
+                getRecipeByMealsType(type);
               },
-              itemBuilder: (BuildContext context) {
-              return mealType.map((type) {
-                return PopupMenuItem(
-                  value: type,
-                    child: Text(type[0].toUpperCase() + type.substring(1))
-                );
-              } ,).toList();
-              }
           ),
-          PopupMenuButton<String>(
-            icon: Icon(
-              Icons.filter_list,
-              color: Color.fromARGB(255, 252, 70, 83),
-            ),
-            onSelected: (value) {
-              _skip = 0;
-              recipeList.clear();
-              _hasMore = false;
-              getRecipeByTags(value);
-            },
-            itemBuilder: (BuildContext context) {
-              return filterList.map((filter) {
-                return PopupMenuItem(value: filter, child: Text(filter));
-              }).toList();
-            },
+          CustomDropDownWidgets(
+              iconData: Icons.filter_list,
+              item: filterList,
+              getLabel: (tags) => tags,
+              onSelect: (tags) {
+                _skip = 0;
+                recipeList.clear();
+                _hasMore = false;
+                getRecipeByTags(tags);
+              },
           ),
         ],
       ),
@@ -221,28 +180,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 SizedBox(width: 13,),
-                PopupMenuButton<Map<String, String>>(
-                  icon: Icon(
-                    Icons.filter_alt,
-                    color: Color.fromARGB(255, 252, 70, 83),
-                  ),
-                    onSelected: (value) {
-                    final sortBy = value['sortBy']!;
-                    final order = value['order']!;
-                    fetchSortedRecipe(sortBy, order);
+                CustomDropDownWidgets<Map<String, String>>(
+                    iconData: Icons.filter_alt,
+                    item: sortOption,
+                    getLabel: (option) => option['label']!,
+                    onSelect: (selectedOption) {
+                      final sortBy = selectedOption['sortBy']!;
+                      final order = selectedOption['order']!;
+                      fetchSortedRecipe(sortBy, order);
                     },
-                    itemBuilder: (BuildContext context) {
-                    return sortOption.map((option) {
-                      return PopupMenuItem<Map<String, String>>(
-                        value: {
-                          'sortBy': option['sortBy']!,
-                          'order': option['order']!,
-                        },
-                          child: Text(option['label']!)
-                      );
-                    }).toList();
-                    }
-                )
+                ),
               ],
             ),
             SizedBox(height: 13),
