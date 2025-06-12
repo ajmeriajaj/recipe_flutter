@@ -1,4 +1,5 @@
-import 'package:dio/dio.dart';
+import 'package:dio/dio.dart' hide Headers;
+import 'package:recipe/database/headers/api_header.dart';
 import 'package:retrofit/http.dart';
 import 'package:retrofit/error_logger.dart';
 part 'rest_client.g.dart';
@@ -39,5 +40,17 @@ abstract class RestClient {
   @GET('recipes/meal-type/{type}')
   Future<String> getMeals(
       @Path('type') String type
+      );
+
+  @POST('recipes/add')
+  @Headers(ApiHeader.header)
+  Future<String> addPost(
+      @Body() Map<String, dynamic> body
+      );
+  
+  @PUT('recipes/{id}')
+  Future<String> updateRecipe(
+      @Path('id') int id,
+      @Body() Map<String, dynamic> body
       );
 }

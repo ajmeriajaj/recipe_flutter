@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:recipe/database/injection/injection.dart';
 
@@ -37,4 +38,37 @@ class API {
     var res = await restClient.getMeals(type);
     return jsonDecode(res);
   }
- }
+
+  addRecipe(String name) async {
+    try {
+      Map<String, dynamic> body = {
+        'method': 'POST',
+        'name': name
+      };
+
+      final res = await restClient.addPost(body);
+      log("API Response: $res");
+
+      return jsonDecode(res as String);
+    } catch (error, stackTrace) {
+      log("API Error: $error");
+      log("Stack Trace: $stackTrace");
+      return null;
+    }
+  }
+
+  updateRecipe(int id, String newName) async {
+    try {
+      Map<String, dynamic> body = {
+        'name': newName
+      };
+
+      final res = await restClient.updateRecipe(id, body);
+      log("Updated Response $res");
+      return jsonDecode(res);
+    } catch (error, stackTrace) {
+      log("API Error: $error");
+      log("Stack Trace: $stackTrace");
+    }
+  }
+}
