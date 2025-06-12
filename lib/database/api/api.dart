@@ -49,7 +49,7 @@ class API {
       final res = await restClient.addPost(body);
       log("API Response: $res");
 
-      return jsonDecode(res as String);
+      return jsonDecode(res);
     } catch (error, stackTrace) {
       log("API Error: $error");
       log("Stack Trace: $stackTrace");
