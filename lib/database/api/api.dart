@@ -71,4 +71,20 @@ class API {
       log("Stack Trace: $stackTrace");
     }
   }
+
+  deleteRecipe(int id) async {
+    try {
+      Map<String, dynamic> body = {
+        'method' : 'DELETE'
+      };
+
+      final res = await restClient.deteleRecipe(id, body);
+      log("API Response: $res");
+      return jsonDecode(res);
+
+    } catch (error, stackTrace) {
+      log("API Error: $error");
+      log("Stack Trace: $stackTrace");
+    }
+  }
 }

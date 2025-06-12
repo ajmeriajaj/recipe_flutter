@@ -53,4 +53,10 @@ abstract class RestClient {
       @Path('id') int id,
       @Body() Map<String, dynamic> body
       );
+
+  @DELETE('recipes/{id}')
+  Future<String> deteleRecipe(
+      @Path('id') int id,
+      @Body() Map<String, dynamic> body
+      );
 }
