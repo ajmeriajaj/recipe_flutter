@@ -71,7 +71,7 @@ class _AllRecipeGridViewState extends State<AllRecipeGridView> {
       return width / (width * 2.9);
     }
 
-    return width / (width * 2.4);
+    return width / (width * 2.5);
   }
 
 
