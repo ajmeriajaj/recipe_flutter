@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:recipe/responsive.dart';
 import 'package:recipe/responsiveManager.dart';
 import 'package:recipe/widgets/tags_widgets.dart';
 
