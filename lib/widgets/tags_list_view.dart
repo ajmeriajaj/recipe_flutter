@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:recipe/responsive.dart';
+import 'package:recipe/responsiveManager.dart';
 import 'package:recipe/widgets/tags_widgets.dart';
 
 class TagsListView extends StatefulWidget {
@@ -14,15 +15,14 @@ class _TagsListViewState extends State<TagsListView> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    final spacing = ResponsiveManager.size(context, 6.0);
+    return ListView.separated(
       scrollDirection: Axis.horizontal,
         itemCount: widget.tags.length,
         itemBuilder: (context, index) {
-        return Padding(
-          padding: EdgeInsets.all(6.0 * getResponsive(context)),
-          child: TagsWidgets(tagsName: widget.tags[index]),
-        );
-        }
+        return TagsWidgets(tagsName: widget.tags[index]);
+        },
+      separatorBuilder: (context, index) => SizedBox(width: spacing,),
     );
   }
 }

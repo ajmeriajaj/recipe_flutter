@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recipe/responsive.dart';
+import '../responsiveManager.dart';
 
 class TagsWidgets extends StatefulWidget {
   final String tagsName;
@@ -12,11 +12,30 @@ class TagsWidgets extends StatefulWidget {
 class _TagsWidgetsState extends State<TagsWidgets> {
   @override
   Widget build(BuildContext context) {
+
+    final width = ResponsiveManager.screenWidth(context);
+    final responsive = ResponsiveManager.size(context, 1.0);
+
+    double? fontSize;
+    double? minWidth;
+
+    if (width >= 1400) {
+      fontSize = 16 * responsive;
+      minWidth = 120;
+    } else if (width >= 1000) {
+      fontSize = 14 * responsive;
+      minWidth = 100;
+    } else {
+      fontSize = 12 * responsive;
+      minWidth = 80;
+    }
+
     return Container(
-      height: 0.023 * getHeight(context),
-      constraints: BoxConstraints(minWidth: 0.23 * getWidth(context)),
+      height: 28 * responsive,
+      constraints: BoxConstraints(minWidth: minWidth),
+      padding: EdgeInsets.symmetric(horizontal: 8.0 * responsive),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(6),
+        borderRadius: BorderRadius.circular(8 * responsive),
         color: Colors.amber,
       ),
       alignment: Alignment.center,
@@ -24,7 +43,7 @@ class _TagsWidgetsState extends State<TagsWidgets> {
         widget.tagsName,
         style: TextStyle(
             fontWeight: FontWeight.bold,
-          fontSize: 14 * getResponsive(context)
+          fontSize: fontSize,
         ),
       ),
     );
