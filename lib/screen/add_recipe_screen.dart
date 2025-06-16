@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:recipe/database/api/api.dart';
@@ -36,7 +38,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
 
     if(res != null) {
       Fluttertoast.showToast(msg: "Recipe Added Successfully!");
-      print(res);
+      log(res);
       _addRecipe.clear();
     } else {
       Fluttertoast.showToast(msg: "Failed to add recipe");
@@ -61,7 +63,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
 
     if(res != null) {
       Fluttertoast.showToast(msg: "Recipe update Successfully!");
-      print(res);
+      log(res);
       _idController.clear();
       _newNameController.clear();
     } else {
@@ -83,7 +85,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
 
     if(res != null) {
       Fluttertoast.showToast(msg: "Recipe Delete Successfully!");
-      print(res);
+      log(res);
       _idControllerForDelete.clear();
     } else {
       Fluttertoast.showToast(msg: "Failed to delete recipe");

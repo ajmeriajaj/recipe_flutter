@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../responsiveManager.dart';
+import '../responsive_manager.dart';
 
 class TagsWidgets extends StatefulWidget {
   final String tagsName;

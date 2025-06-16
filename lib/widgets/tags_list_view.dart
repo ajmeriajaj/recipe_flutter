@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:recipe/responsiveManager.dart';
+import 'package:recipe/responsive_manager.dart';
 import 'package:recipe/widgets/tags_widgets.dart';
 
 class TagsListView extends StatefulWidget {
