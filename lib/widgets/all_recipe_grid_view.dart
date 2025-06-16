@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe/models/get_all_recipe.dart';
-import 'package:recipe/responsiveManager.dart';
+import 'package:recipe/responsive_manager.dart';
 import 'package:recipe/widgets/all_recipe_widgets.dart';
 
 class AllRecipeGridView extends StatefulWidget {
