@@ -1,8 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:recipe/provider/customized_recipe_provider.dart';
+import 'package:recipe/provider/recipe_provider.dart';
 import 'package:recipe/screen/home_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => CustomizedRecipeProvider(),),
+          ChangeNotifierProvider(create: (_) => RecipeProvider(),),
+        ],
+      child: MyApp(),
+    )
+  );
 }
 
 class MyApp extends StatelessWidget {
