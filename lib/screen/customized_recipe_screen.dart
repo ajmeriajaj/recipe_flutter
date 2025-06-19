@@ -99,7 +99,7 @@ class _CustomizedRecipeScreenState extends State<CustomizedRecipeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<CustomizedRecipeProvider>(context);
+    // final provider = Provider.of<CustomizedRecipeProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -112,77 +112,81 @@ class _CustomizedRecipeScreenState extends State<CustomizedRecipeScreen> {
           ),
         ),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(13.0 * getResponsive(context)),
-        child: Column(
-          children: [
-            CardWidgets(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                        child: TextFieldWidget(
-                          controller: provider.addController,
-                          hint: "add recipe name",
-                        )
-                    ),
-                    SizedBox(width: 0.023 * getWidth(context),),
-                    OnTapWidgets(
-                      onTap: () => provider.addRecipe(),
-                      icon: Icons.post_add,
-                    ),
-                  ],
-                )
-            ),
-            SizedBox(height: 0.04 * getHeight(context),),
-            CardWidgets(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        children: [
-                          TextFieldWidget(
-                            controller: provider.updateIdController,
-                            hint: 'enter id',
-                          ),
-                          SizedBox(height: 0.013 * getHeight(context),),
-                          TextFieldWidget(
-                            controller: provider.updateNameController,
-                            hint: 'enter recipe name',
-                          ),
-                        ],
+      body: Consumer<CustomizedRecipeProvider>(
+        builder: (context, provider, child) {
+          return  Padding(
+            padding: EdgeInsets.all(13.0 * getResponsive(context)),
+            child: Column(
+              children: [
+                CardWidgets(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                            child: TextFieldWidget(
+                              controller: provider.addController,
+                              hint: "add recipe name",
+                            )
+                        ),
+                        SizedBox(width: 0.023 * getWidth(context),),
+                        OnTapWidgets(
+                          onTap: () => provider.addRecipe(),
+                          icon: Icons.post_add,
+                        ),
+                      ],
+                    )
+                ),
+                SizedBox(height: 0.04 * getHeight(context),),
+                CardWidgets(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          children: [
+                            TextFieldWidget(
+                              controller: provider.updateIdController,
+                              hint: 'enter id',
+                            ),
+                            SizedBox(height: 0.013 * getHeight(context),),
+                            TextFieldWidget(
+                              controller: provider.updateNameController,
+                              hint: 'enter recipe name',
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    SizedBox(width: 0.023 * getWidth(context),),
-                    OnTapWidgets(
-                      onTap: () => provider.updateRecipe(),
-                      icon: Icons.change_circle,
-                    ),
-                  ],
+                      SizedBox(width: 0.023 * getWidth(context),),
+                      OnTapWidgets(
+                        onTap: () => provider.updateRecipe(),
+                        icon: Icons.change_circle,
+                      ),
+                    ],
+                  ),
                 ),
+                SizedBox(height: 0.04 * getHeight(context),),
+                CardWidgets(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                          child: TextFieldWidget(
+                            controller: provider.deleteIdController,
+                            hint: "enter id for delete recipe",
+                          )
+                      ),
+                      SizedBox(width: 0.023 * getWidth(context),),
+                      OnTapWidgets(
+                        onTap: () => provider.deleteRecipe(),
+                        icon: Icons.delete,
+                      ),
+                    ],
+                  ),
+                )
+              ],
             ),
-            SizedBox(height: 0.04 * getHeight(context),),
-            CardWidgets(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                        child: TextFieldWidget(
-                          controller: provider.deleteIdController,
-                          hint: "enter id for delete recipe",
-                        )
-                    ),
-                    SizedBox(width: 0.023 * getWidth(context),),
-                    OnTapWidgets(
-                      onTap: () => provider.deleteRecipe(),
-                      icon: Icons.delete,
-                    ),
-                  ],
-                ),
-            )
-          ],
-        ),
+          );
+        },
       ),
     );
   }

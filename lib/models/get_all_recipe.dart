@@ -82,7 +82,6 @@ class Recipes {
     userId = json['userId'];
     image = json['image'];
 
-    // ✅ Handle case where rating may be an int or a double
     var ratingValue = json['rating'];
     if (ratingValue is int) {
       rating = ratingValue.toDouble();
